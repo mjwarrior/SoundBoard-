@@ -22,6 +22,7 @@ class SoundViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
 
         
                  }
@@ -31,19 +32,26 @@ class SoundViewController: UIViewController {
         do {
         // Create an audio session
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(AVAudioSessionCategoryPlayandRecord)
+        try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
         try session.overrideOutputAudioPort(.speaker)
         try session.setActive(true)
         
 
         // Create URL for the audio recorder
         
+            let basePath : String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            let pathComponents = [basePath,"audio.m4a"]
+            let audioURL = NSURL.fileURL(withPathComponents: pathComponents)!
+            
         // Create settings for the audio recorder
-        
-        // Do any additional setup after loading the view.
-    
+     
+            var settings : [String:Any] = [:]
+            settings[AVFormatIDKey] = Int(kAudioFormatMPEG4AAC)
+            settings[AVSampleRateKey] = 44100.0
+            settings[AVNumberOfChannelsKey] = 2
         // Create AudioRecorder object
-        audioRecorder = AVAudioRecorder(url: <#T##URL#>, settings: <#T##[String : Any]#>)
+        audioRecorder = try AVAudioRecorder(url: audioURL, settings: settings)
+        audioRecorder!.prepareToRecord()
         }catch let error as NSError {
          print(error)
         }
