@@ -23,23 +23,30 @@ class SoundViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+                 }
+    
+    func setupRecorder() {
+       
+        do {
         // Create an audio session
         let session = AVAudioSession.sharedInstance()
-        session.setCategory(AVAudioSessionCategoryPlayandRecord)
-        session.overrideOutputAudioPort(.speaker)
-        session.setActive(true)
+        try session.setCategory(AVAudioSessionCategoryPlayandRecord)
+        try session.overrideOutputAudioPort(.speaker)
+        try session.setActive(true)
         
+
         // Create URL for the audio recorder
         
         // Create settings for the audio recorder
         
         // Do any additional setup after loading the view.
-    }
     
-    func setupRecorder() {
-        // Create AudioRecorder object 
-        
+        // Create AudioRecorder object
         audioRecorder = AVAudioRecorder(url: <#T##URL#>, settings: <#T##[String : Any]#>)
+        }catch let error as NSError {
+         print(error)
+        }
     }
 
    
